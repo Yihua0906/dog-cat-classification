@@ -3,7 +3,7 @@
 
 使用的資料集是來自於[Kaggle的資料集](https://www.kaggle.com/datasets/karakaggle/kaggle-cat-vs-dog-dataset)
 
-###  使用的工具與函式庫
+##  使用的工具與函式庫
 
 本專案使用了以下 Python 函式庫與工具：
 
@@ -15,7 +15,7 @@
 • OpenCV（cv2）：處理與載入圖片  
 • datetime、random、os：Python 標準函式庫  
 
-###  Test-Train Split（測試訓練拆分）
+##  Test-Train Split（測試訓練拆分）
 本專案共使用 25,000 張圖像，包含兩個類別。
 我將資料集依照比例 80% 作為訓練集，20% 作為驗證集。
 也就是每個類別的圖像中，20,000 張用於訓練，5000 張用於驗證
@@ -25,7 +25,7 @@
 
 ![CNN Model Visualization](模型視覺圖.png)
 
-###  模型架構說明：
+##  模型架構說明：
 
 - **輸入尺寸**：`150x150x3` 彩色影像
 - **特徵提取層**：
@@ -38,7 +38,74 @@
   - 接續兩層 `Dense` 全連接層，並搭配 `Dropout` 和 `BatchNormalization`
   - 最終輸出層為 `Dense(1)` + `sigmoid`，進行二元分類
 
-### 設計特色：
+## 設計特色：
 - 利用漸進式擴大 Filter 數量（32→64→128→256）以捕捉不同層次的影像特徵
 - 使用 `BatchNormalization` 穩定訓練過程並加速收斂
 - 加入多層 `Dropout` 以強化模型泛化能力
+
+## Data Augmentation 數據增強
+使用數據增強技術來生成更多訓練資料，提升模型泛化能力。
+
+•Shearing of images 圖像剪裁
+
+•Random zoom 隨機縮放
+
+•Horizontal flips 水平翻轉
+
+•Rotation 旋轉
+
+•Shift (width/height) 圖像平移
+
+•Gaussian blur 高斯模糊（自定義）
+<pre>
+# 自定義模糊增強函數
+def apply_random_blur(image):
+    BLUR_PROBABILITY = 0.15
+    MAX_BLUR_KERNEL_SIZE = 5
+    if random.random() < BLUR_PROBABILITY:
+        kernel_size = random.choice(range(1, MAX_BLUR_KERNEL_SIZE + 1, 2))
+        if kernel_size > 1:
+            try:
+                if image.max() <= 1.0 and image.min() >= 0.0:
+                    image_uint8 = (image * 255).astype(np.uint8)
+                else:
+                    image_uint8 = image.astype(np.uint8)
+                blurred_image_uint8 = cv2.GaussianBlur(image_uint8, (kernel_size, kernel_size), 0)
+                if image.max() <= 1.0 and image.min() >= 0.0:
+                    image = blurred_image_uint8.astype(np.float32) / 255.0
+                else:
+                    image = blurred_image_uint8.astype(np.float32)
+            except Exception as e:
+                print(f"模糊失敗: {e}")
+    return image
+
+# 定義資料增強器
+train_datagen = ImageDataGenerator(
+    rescale=1./255,
+    rotation_range=20,
+    width_shift_range=0.1,
+    height_shift_range=0.1,
+    shear_range=0.1,
+    zoom_range=0.1,
+    horizontal_flip=True,
+    fill_mode='nearest',
+    preprocessing_function=apply_random_blur
+)
+                  </pre>
+![資料增強範例圖](增強圖片範例.png)
+
+## Prediction of Single Image 單一圖像的預測
+<pre>
+# 預測
+prob = model.predict(img_array)[0][0]
+label = "Dog" if prob > 0.5 else "Cat"
+confidence = prob if prob > 0.5 else 1 - prob
+
+# 顯示圖片與結果
+plt.imshow(img)
+plt.axis('off')
+plt.title(f"{label} {confidence:.2f}", fontsize=16, color='red')
+plt.show()
+</pre>
+![單一圖片預測](單一圖片預測.png)
+
