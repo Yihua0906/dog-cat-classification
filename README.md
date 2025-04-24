@@ -107,5 +107,18 @@ plt.axis('off')
 plt.title(f"{label} {confidence:.2f}", fontsize=16, color='red')
 plt.show()
 </pre>
-![單一圖片預測](單一圖片預測.png)
+![單一圖片預測](單一圖片預測(dog).png) 
+![](單一圖片預測(cat).png)
+
+## Confusion Matrix 混淆矩陣
+![混淆矩陣](混淆矩陣.png) 
+
+## Model Performance on Unseen Data 陌生圖片上的模型性能
+![陌生圖片預測](陌生圖片預測.png) 
+
+## Conclusion  結論
+
+本專案成功建立了一個卷積神經網路（CNN）模型，能夠有效辨識貓與狗的圖像。透過資料正規化與隨機模糊等資料增強技術，提升了模型的泛化能力。在測試集上，模型達到 97.52% 的準確率
+
+預測結果以圖片標註的方式呈現，輸出類別為「Dog」或「Cat」，並搭配對應的信心分數（Confidence Score），例如 Dog 0.98，方便使用者直觀理解分類結果。
 
