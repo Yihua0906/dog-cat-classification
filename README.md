@@ -25,7 +25,7 @@
 ### CNN 模型架構視覺化
 以下為本專案中使用之卷積神經網路（CNN）模型架構圖，使用 `visualkeras` 套件視覺化呈現。該模型專為二分類任務（貓狗分類）設計，具備良好的特徵提取與分類能力。
 
-![CNN Model Visualization](模型視覺圖.png)
+![CNN Model Visualization](resource/images/模型視覺圖.png)
 
 ##  模型架構說明：
 
@@ -94,7 +94,7 @@ train_datagen = ImageDataGenerator(
     preprocessing_function=apply_random_blur
 )
                   </pre>
-![資料增強範例圖](增強圖片範例.png)
+![資料增強範例圖](resource/images/增強圖片範例.png)
 
 ## Prediction of Single Image 單一圖像的預測
 <pre>
@@ -109,14 +109,14 @@ plt.axis('off')
 plt.title(f"{label} {confidence:.2f}", fontsize=16, color='red')
 plt.show()
 </pre>
-![單一圖片預測](單一圖片預測(dog).png) 
-![](單一圖片預測(cat).png)
+![單一圖片預測](resource/images/單一圖片預測(dog).png) 
+![](resource/images/單一圖片預測(cat).png)
 
 ## Confusion Matrix 混淆矩陣
-![混淆矩陣](混淆矩陣.png) 
+![混淆矩陣](resource/images/混淆矩陣.png) 
 
 ## Model Performance on Unseen Data 陌生圖片上的模型性能
-![陌生圖片預測](陌生圖片預測.png) 
+![陌生圖片預測](resource/images/陌生圖片預測.png) 
 
 ## Conclusion  結論
 
