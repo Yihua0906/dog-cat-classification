@@ -4,8 +4,7 @@
 使用的資料集是來自於[Kaggle的資料集](https://www.kaggle.com/datasets/karakaggle/kaggle-cat-vs-dog-dataset)
 
 ## 模型
-使用的[模型]([https://www.kaggle.com/datasets/karakaggle/kaggle-cat-vs-dog-dataset](https://drive.google.com/drive/folders/1HJD16NdZvSA1Hpud46s_eLusOaooMa42?usp=drive_link))
-
+[模型載點](https://drive.google.com/drive/folders/1HJD16NdZvSA1Hpud46s_eLusOaooMa42?usp=drive_link)
 ##  使用的工具與函式庫
 
 本專案使用了以下 Python 函式庫與工具：
